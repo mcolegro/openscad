@@ -4,7 +4,7 @@ $fs = 0.4;
 
 /* [Box dimension] */
 box_width=240;
-box_depth=124;
+box_depth=130;
 box_height=130;
 wall_width=2; //[1:0.1:5]
 drill_hole=5;
