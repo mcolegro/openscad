@@ -1,8 +1,8 @@
 use <vacuum-hose-adapter-modules.scad>
 
-outer_radius = 20;
-height = 60;
-cyl_wall_thickness = 3;
+outer_radius = 25;
+height = 129;
+cyl_wall_thickness = 2;
 hole_diameter = 4;
 hex_walls = 1;
 
@@ -14,9 +14,9 @@ cyl_circumference = 2*PI*outer_radius;
 numholes = floor(cyl_circumference / hole_hspacing);
 angle_step = 360/numholes;
 
-legLength = 30;
+legLength = 25;
 legRadius = 2;
-
+legTilt = 6;
 
 difference() {
    // Draw cylinder
@@ -31,33 +31,32 @@ difference() {
          translate([0,0,z+legLength]) rotate([0,0,a+aoffset]) punch();
 }
 
-// ring at bottom
+// ring at bottom to connect to the legs
 // ConeRing(centerDiameter, length, wallThickness1, wallThickness2, zPosition)
 translate([0,0,legLength])
-ConeRing(outer_radius*2, 3, 3, 3, -3, $fn=100);
+ConeRing(outer_radius*2, 4, 4, 1, -2, $fn=100);
 
    color("red")
-   rotate([0, -10, 0])
-   linear_extrude(height = legLength, center = false, convexity = 10, twist = 0, $fn = 100)
-   translate([outer_radius, 0, 0])
+   linear_extrude(height = legLength, v = [-legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([outer_radius+legTilt, 0, 0])
    circle(r = legRadius);
 
 color("green")
-linear_extrude(height = legLength, center = false, convexity = 10, twist = 0, $fn = 100)
-   translate([-outer_radius, 0, 0])
+linear_extrude(height = legLength, v=[legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([-outer_radius-legTilt, 0, 0])
    circle(r = legRadius);
 
 color("blue")
-linear_extrude(height = legLength, center = false, convexity = 10, twist = 0, $fn = 100)
-   translate([0, outer_radius, 0])
+linear_extrude(height = legLength, v=[0, -legTilt, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([0, outer_radius+legTilt, 0])
    circle(r = legRadius);
 
-color("orange")
-linear_extrude(height = legLength, center = false, convexity = 10, twist = 0, $fn = 100)
-   translate([0, -outer_radius, 0])
+color("white")
+linear_extrude(height = legLength, v=[0, legTilt, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([0, -outer_radius-legTilt, 0])
    circle(r = legRadius);
 
-
+// This module is where the hex holes are generated
 module punch() {
    rotate([0,90,0]) rotate([0,0,90])
       cylinder(outer_radius+1, d1=0, d2=hole_diameter, $fn=6);
