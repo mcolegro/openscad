@@ -2,9 +2,13 @@ use <vacuum-hose-adapter-modules.scad>
 
 outer_radius = 25;
 height = 129;
-cyl_wall_thickness = 2;
+cyl_wall_thickness = 3;
 hole_diameter = 4;
 hex_walls = 1;
+
+legLength = 25;
+legRadius = 2;
+legTilt = 6;
 
 hole_side = hole_diameter*sin(30);
 hole_hspacing = hole_diameter + hole_side + hex_walls;
@@ -13,10 +17,6 @@ hole_layers = floor(height / hole_zspacing);
 cyl_circumference = 2*PI*outer_radius;
 numholes = floor(cyl_circumference / hole_hspacing);
 angle_step = 360/numholes;
-
-legLength = 25;
-legRadius = 2;
-legTilt = 6;
 
 difference() {
    // Draw cylinder
@@ -35,6 +35,10 @@ difference() {
 // ConeRing(centerDiameter, length, wallThickness1, wallThickness2, zPosition)
 translate([0,0,legLength])
 ConeRing(outer_radius*2, 4, 4, 1, -2, $fn=100);
+
+translate([0, 0, legLength+height   ])
+ConeRing((outer_radius-1.4)*2, 4, 4, 2, -1, $fn=100);
+
 
    color("red")
    linear_extrude(height = legLength, v = [-legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
