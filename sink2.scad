@@ -1,14 +1,14 @@
 use <vacuum-hose-adapter-modules.scad>
 
-outer_radius = 28;
-height = 129;
-cyl_wall_thickness = 3;
+outer_radius = 30;
+height = 140;
+cyl_wall_thickness = 3.5;
 hole_diameter = 4;
 hex_walls = 1;
 
 legLength = 25;
 legRadius = 2.5;
-legTilt = 6;
+legTilt = 8;
 
 hole_side = hole_diameter*sin(30);
 hole_hspacing = hole_diameter + hole_side + hex_walls;
@@ -34,27 +34,52 @@ difference() {
 // ring at bottom to connect to the legs
 // ConeRing(centerDiameter, length, wallThickness1, wallThickness2, zPosition)
 translate([0,0,legLength])
-ConeRing(outer_radius*2, 5, 4, 1, -2, $fn=100);
+ConeRing(outer_radius*2, 5, 5, 2, -2, $fn=100);
 
 // ring at top of cylindar
 translate([0, 0, legLength+height   ])
 ConeRing((outer_radius-1.4)*2, 4, 4, 2, -1, $fn=100);
 
-
+// leg 1
+   color("orange")
+   rotate([0,0,45])
+   linear_extrude(height = legLength, scale=[1,3],  v = [-legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([outer_radius+legTilt, 0, 0])
+   circle(r = legRadius);
+// leg 2
    color("red")
-   // linear_extrude(height = legLength, v = [-legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
    linear_extrude(height = legLength, scale=[1,3],  v = [-legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
    translate([outer_radius+legTilt, 0, 0])
    circle(r = legRadius);
 
+// leg 3
+color("yellow")
+rotate([0,0,45])
+linear_extrude(height = legLength,  scale=[1,3], v=[legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([-outer_radius-legTilt, 0, 0])
+   circle(r = legRadius);
+
+// leg 4
 color("green")
 linear_extrude(height = legLength,  scale=[1,3], v=[legTilt, 0, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
    translate([-outer_radius-legTilt, 0, 0])
    circle(r = legRadius);
 
+color("brown")
+rotate([0,0,45])
+linear_extrude(height = legLength, scale=[3,1], v=[0, -legTilt, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([0, outer_radius+legTilt, 0])
+   circle(r = legRadius);
+
 color("blue")
 linear_extrude(height = legLength, scale=[3,1], v=[0, -legTilt, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
    translate([0, outer_radius+legTilt, 0])
+   circle(r = legRadius);
+
+color("gray")
+rotate([0,0,45])
+linear_extrude(height = legLength, scale=[3,1], v=[0, legTilt, legLength], center = false, convexity = 10, twist = 0, $fn = 100)
+   translate([0, -outer_radius-legTilt, 0])
    circle(r = legRadius);
 
 color("white")
