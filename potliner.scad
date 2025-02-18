@@ -1,5 +1,6 @@
 // Lines that begin with // are comments 
-// This "use" command means to read in the file with the following name.  The file should be in the same folder as your models
+// This "use" command means to read in the file with the following name.  The file should be in the same folder as your models.
+// If you aren't using any of the modules, then you don't need to reference the file.  This model is using ConeRing from the library.
 use <vacuum-hose-adapter-modules.scad>
 
 //  These are parameters and all you have to do is declare the parameter and assign a value to it.  What you call the parameter
